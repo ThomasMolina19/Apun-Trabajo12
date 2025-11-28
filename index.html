@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAQUILÁPOLIS - La Verdad Detrás de la Etiqueta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Oswald:wght@400;500;600;700&family=Roboto+Condensed:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --rust: #8B4513;
+            --blood-red: #8B0000;
+            --warning-red: #cc0000;
+            --dirty-yellow: #d4a017;
+            --industrial-gray: #2a2a2a;
+            --concrete: #4a4a4a;
+            --paper-white: #f5f0e1;
+            --aged-paper: #e8dcc4;
+            --black: #0d0d0d;
+            --chain-gray: #5a5a5a;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background: var(--black);
+            color: var(--paper-white);
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Textura de ruido */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Manchas de óxido */
+        .rust-stain {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(139, 69, 19, 0.3), transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .rust-1 { width: 500px; height: 500px; top: -100px; left: -100px; }
+        .rust-2 { width: 400px; height: 400px; bottom: 10%; right: -100px; }
+        .rust-3 { width: 300px; height: 300px; top: 50%; left: 20%; }
+
+        /* Hero Section - Estilo Cartel de Protesta */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            background: 
+                linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(20,20,20,0.9) 100%),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255,255,255,0.03) 2px,
+                    rgba(255,255,255,0.03) 4px
+                );
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .protest-sign {
+            background: var(--aged-paper);
+            padding: 2rem 3rem;
+            transform: rotate(-2deg);
+            box-shadow: 
+                8px 8px 0 rgba(0,0,0,0.5),
+                inset 0 0 50px rgba(139, 69, 19, 0.2);
+            position: relative;
+            border: 3px solid var(--industrial-gray);
+        }
+
+        .protest-sign::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(90deg, #5a3d2b, #8B4513, #5a3d2b);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .main-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(3rem, 10vw, 7rem);
+            color: var(--blood-red);
+            text-transform: uppercase;
+            line-height: 0.9;
+            text-shadow: 3px 3px 0 var(--black);
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle-protest {
+            font-family: 'Special Elite', monospace;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--black);
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .stamp {
+            position: absolute;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--warning-red);
+            border: 4px solid var(--warning-red);
+            padding: 0.5rem 1rem;
+            transform: rotate(15deg);
+            top: 20px;
+            right: -10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.9;
+        }
+
+        /* Cinta de peligro */
+        .danger-tape {
+            width: 100%;
+            padding: 0.8rem 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                var(--dirty-yellow),
+                var(--dirty-yellow) 20px,
+                var(--black) 20px,
+                var(--black) 40px
+            );
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        .danger-tape-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            color: var(--black);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+            animation: scroll-tape 25s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes scroll-tape {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Contenedor Principal */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Secciones */
+        section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        /* Estilo de papel rasgado */
+        .torn-paper {
+            background: var(--aged-paper);
+            color: var(--black);
+            padding: 3rem;
+            position: relative;
+            margin: 2rem 0;
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+
+        .torn-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(135deg, var(--aged-paper) 25%, transparent 25%),
+                        linear-gradient(225deg, var(--aged-paper) 25%, transparent 25%);
+            background-size: 20px 20px;
+            transform: translateY(-100%);
+        }
+
+        .torn-paper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(315deg, var(--aged-paper) 25%, transparent 25%),
+                        linear-gradient(45deg, var(--aged-paper) 25%, transparent 25%);
+            background-size: 20px 20px;
+            transform: translateY(100%);
+        }
+
+        /* Headers estilo stencil */
+        .section-header {
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stencil-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--paper-white);
+            position: relative;
+            display: inline-block;
+            text-shadow: 4px 4px 0 var(--blood-red);
+        }
+
+        .section-number {
+            font-family: 'Special Elite', monospace;
+            font-size: 1rem;
+            color: var(--dirty-yellow);
+            letter-spacing: 0.3em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Grid Industrial */
+        .industrial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Tarjetas de Metal Oxidado */
+        .metal-card {
+            background: linear-gradient(135deg, #3a3a3a, #2a2a2a, #1a1a1a);
+            border: 2px solid var(--chain-gray);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+
+        .metal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(139, 69, 19, 0.3), transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 69, 19, 0.2), transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .metal-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--rust);
+        }
+
+        .metal-card h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            color: var(--dirty-yellow);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .metal-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Sección de Impacto - Estilo Fábrica */
+        .impact-section {
+            background: 
+                linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+                repeating-linear-gradient(
+                    90deg,
+                    #1a1a1a 0px,
+                    #1a1a1a 2px,
+                    #2a2a2a 2px,
+                    #2a2a2a 20px
+                );
+        }
+
+        .factory-visual {
+            position: relative;
+            height: 250px;
+            background: #1a1a1a;
+            border: 3px solid var(--chain-gray);
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .factory-chimney {
+            position: absolute;
+            bottom: 40%;
+            width: 35px;
+            background: linear-gradient(90deg, #3a3a3a, #5a5a5a, #3a3a3a);
+            border: 2px solid var(--chain-gray);
+        }
+
+        .chimney-1 { left: 15%; height: 80px; }
+        .chimney-2 { left: 35%; height: 70px; }
+        .chimney-3 { left: 55%; height: 90px; }
+        .chimney-4 { left: 75%; height: 65px; }
+
+        .factory-body {
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            right: 5%;
+            height: 40%;
+            background: linear-gradient(180deg, #4a4a4a, #2a2a2a);
+            border: 3px solid var(--chain-gray);
+            border-bottom: none;
+        }
+
+        .factory-window {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: rgba(212, 160, 23, 0.3);
+            border: 2px solid var(--chain-gray);
+        }
+
+        .smoke-cloud {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(ellipse, rgba(100,100,100,0.5), transparent 70%);
+            border-radius: 50%;
+            animation: rise-smoke 4s ease-out infinite;
+        }
+
+        @keyframes rise-smoke {
+            0% { transform: translateY(0) scale(0.5); opacity: 0.6; }
+            100% { transform: translateY(-120px) scale(1.5); opacity: 0; }
+        }
+
+        .smoke-1 { left: 13%; bottom: 55%; animation-delay: 0s; }
+        .smoke-2 { left: 33%; bottom: 50%; animation-delay: 1s; }
+        .smoke-3 { left: 53%; bottom: 58%; animation-delay: 2s; }
+        .smoke-4 { left: 73%; bottom: 48%; animation-delay: 0.5s; }
+
+        /* Cita estilo graffiti */
+        .graffiti-quote {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            color: var(--warning-red);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            position: relative;
+            line-height: 1.6;
+            margin: 2rem 0;
+            background: rgba(0,0,0,0.3);
+            border-left: 5px solid var(--dirty-yellow);
+            border-right: 5px solid var(--dirty-yellow);
+        }
+
+        /* Estadísticas estilo industrial */
+        .stats-industrial {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-box-industrial {
+            background: var(--industrial-gray);
+            border: 3px solid var(--chain-gray);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-box-industrial::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--blood-red);
+        }
+
+        .stat-number-industrial {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            color: var(--dirty-yellow);
+            line-height: 1;
+            display: block;
+        }
+
+        .stat-label-industrial {
+            font-family: 'Special Elite', monospace;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+        }
+
+        /* Timeline estilo cadena de producción */
+        .production-line {
+            position: relative;
+            padding: 2rem 0;
+            padding-left: 50px;
+        }
+
+        .production-line::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: repeating-linear-gradient(
+                180deg,
+                var(--chain-gray) 0px,
+                var(--chain-gray) 15px,
+                var(--rust) 15px,
+                var(--rust) 30px
+            );
+        }
+
+        .production-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 2.5rem;
+        }
+
+        .production-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 24px;
+            height: 24px;
+            background: var(--blood-red);
+            border: 3px solid var(--dirty-yellow);
+            border-radius: 50%;
+        }
+
+        .production-item h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            color: var(--dirty-yellow);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .production-item p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Sección de denuncia */
+        .denounce-section {
+            background: var(--blood-red);
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .denounce-section::before {
+            content: '⚠️ ALERTA ⚠️ ALERTA ⚠️ ALERTA ⚠️ ALERTA ⚠️ ALERTA ⚠️ ALERTA ⚠️ ALERTA ⚠️';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            color: var(--dirty-yellow);
+            background: var(--black);
+            padding: 0.5rem 0;
+            animation: scroll-alert 15s linear infinite;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+        }
+
+        @keyframes scroll-alert {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .denounce-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--paper-white);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .denounce-text {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.95);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Botón de protesta */
+        .protest-button {
+            display: inline-block;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--black);
+            background: var(--dirty-yellow);
+            padding: 1rem 3rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            border: 4px solid var(--black);
+            box-shadow: 6px 6px 0 var(--black);
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .protest-button:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 3px 3px 0 var(--black);
+        }
+
+        /* Manos trabajadoras */
+        .workers-hands {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0.5rem;
+            margin: 3rem 0;
+            padding: 2rem;
+        }
+
+        .hand {
+            width: 30px;
+            height: 80px;
+            background: linear-gradient(180deg, var(--rust), #5a3d2b);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+            animation: raise-hand 2s ease-in-out infinite;
+        }
+
+        .hand:nth-child(odd) { animation-delay: 0.2s; height: 70px; }
+        .hand:nth-child(3) { animation-delay: 0.4s; height: 90px; }
+        .hand:nth-child(5) { animation-delay: 0.6s; }
+        .hand:nth-child(7) { animation-delay: 0.8s; height: 75px; }
+
+        @keyframes raise-hand {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            padding: 3rem 2rem;
+            border-top: 5px solid var(--rust);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2rem;
+            color: var(--blood-red);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            font-family: 'Special Elite', monospace;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        /* Cadenas decorativas */
+        .chain-divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .chain-link {
+            width: 40px;
+            height: 20px;
+            border: 4px solid var(--chain-gray);
+            border-radius: 10px;
+            margin: 0 -5px;
+        }
+
+        .chain-link:nth-child(even) {
+            transform: rotate(90deg);
+            border-color: var(--rust);
+        }
+
+        /* Animaciones de entrada */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .protest-sign {
+                padding: 1.5rem;
+            }
+            
+            .torn-paper {
+                padding: 2rem 1.5rem;
+            }
+
+            .production-line {
+                padding-left: 30px;
+            }
+
+            .production-line::before {
+                left: 15px;
+            }
+
+            .production-item {
+                padding-left: 40px;
+            }
+
+            .production-item::before {
+                left: -25px;
+                width: 20px;
+                height: 20px;
+            }
+
+            .graffiti-quote {
+                padding: 2rem 1.5rem;
+                font-size: 1.2rem;
+            }
+
+            .stat-number-industrial {
+                font-size: 3rem;
+            }
+        }
+
+        /* Efecto de parpadeo para advertencias */
+        .blink {
+            animation: blink-warning 1s step-end infinite;
+        }
+
+        @keyframes blink-warning {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Tuberías */
+        .pipe-horizontal {
+            height: 20px;
+            background: linear-gradient(180deg, #5a5a5a, #3a3a3a, #5a5a5a);
+            border: 2px solid var(--chain-gray);
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .pipe-horizontal::before,
+        .pipe-horizontal::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(180deg, #6a6a6a, #3a3a3a);
+            border: 2px solid var(--chain-gray);
+            border-radius: 5px;
+            top: -5px;
+        }
+
+        .pipe-horizontal::before { left: 10%; }
+        .pipe-horizontal::after { right: 10%; }
+    </style>
+</head>
+<body>
+    <!-- Manchas de óxido -->
+    <div class="rust-stain rust-1"></div>
+    <div class="rust-stain rust-2"></div>
+    <div class="rust-stain rust-3"></div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="protest-sign">
+            <div class="stamp blink">URGENTE</div>
+            <h1 class="main-title">MAQUILÁPOLIS</h1>
+            <p class="subtitle-protest">Ciudad de Fábricas · Ciudad de Injusticia</p>
+        </div>
+    </header>
+
+    <!-- Cinta de peligro -->
+    <div class="danger-tape">
+        <span class="danger-tape-text">
+            ⚠️ EXPLOTACIÓN LABORAL ⚠️ CONTAMINACIÓN ⚠️ SALARIOS DE MISERIA ⚠️ DERECHOS VIOLADOS ⚠️ EXPLOTACIÓN LABORAL ⚠️ CONTAMINACIÓN ⚠️ SALARIOS DE MISERIA ⚠️ DERECHOS VIOLADOS ⚠️
+        </span>
+    </div>
+
+    <!-- Sección de Impacto -->
+    <section class="impact-section">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">/// ESCENA 01</span>
+                <h2 class="stencil-title" data-text="LA ESCENA QUE DUELE">LA ESCENA QUE DUELE</h2>
+            </div>
+
+            <div class="factory-visual fade-in">
+                <div class="factory-chimney chimney-1"></div>
+                <div class="factory-chimney chimney-2"></div>
+                <div class="factory-chimney chimney-3"></div>
+                <div class="factory-chimney chimney-4"></div>
+                <div class="factory-body">
+                    <div class="factory-window" style="top: 20%; left: 10%;"></div>
+                    <div class="factory-window" style="top: 20%; left: 30%;"></div>
+                    <div class="factory-window" style="top: 20%; left: 50%;"></div>
+                    <div class="factory-window" style="top: 20%; left: 70%;"></div>
+                </div>
+                <div class="smoke-cloud smoke-1"></div>
+                <div class="smoke-cloud smoke-2"></div>
+                <div class="smoke-cloud smoke-3"></div>
+                <div class="smoke-cloud smoke-4"></div>
+            </div>
+
+            <div class="torn-paper fade-in">
+                <p style="font-size: 1.2rem; line-height: 2; margin-bottom: 1.5rem;">
+                    <strong>Carmen Durán</strong> camina sobre terrenos envenenados. Las empresas se fueron, 
+                    dejando químicos tóxicos enterrados en el suelo donde ahora juegan los niños. 
+                    Ella y otras trabajadoras graban con sus propias cámaras la devastación que nadie quiere ver.
+                </p>
+                <p style="font-size: 1.2rem; line-height: 2;">
+                    Las casas no tienen agua potable. Las fábricas donde ensamblan televisores de alta 
+                    definición tienen aire acondicionado, baños limpios, todo. Las colonias donde 
+                    viven las trabajadoras no tienen nada. <strong>Ese contraste es un crimen.</strong>
+                </p>
+            </div>
+
+            <div class="graffiti-quote fade-in">
+                "Hacemos los televisores que jamás podremos comprar, en fábricas con aire acondicionado, 
+                para volver a casas sin agua"
+            </div>
+        </div>
+    </section>
+
+    <!-- Cadena divisora -->
+    <div class="chain-divider">
+        <div class="chain-link"></div>
+        <div class="chain-link"></div>
+        <div class="chain-link"></div>
+        <div class="chain-link"></div>
+        <div class="chain-link"></div>
+        <div class="chain-link"></div>
+        <div class="chain-link"></div>
+    </div>
+
+    <!-- Sección de Reflexión -->
+    <section>
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">/// REFLEXIÓN 02</span>
+                <h2 class="stencil-title" data-text="NOS TOCA A TODOS">NOS TOCA A TODOS</h2>
+            </div>
+
+            <div class="industrial-grid">
+                <div class="metal-card fade-in">
+                    <h4><span class="card-icon">🏭</span> Trabajo Invisible</h4>
+                    <p>
+                        Cada celular, cada computadora, cada televisor pasó por manos que nunca veremos. 
+                        Manos que ganan $5 dólares al día mientras nosotros pagamos $1000 por el producto final. 
+                        ¿Dónde se queda la diferencia? No en sus bolsillos.
+                    </p>
+                </div>
+
+                <div class="metal-card fade-in">
+                    <h4><span class="card-icon">⛓️</span> Cadenas Globales</h4>
+                    <p>
+                        La frontera es un espejo de la desigualdad mundial. Lo que pasa en Tijuana pasa en 
+                        Bangladesh, Vietnam, Indonesia. El sistema extractivo no tiene nacionalidad: 
+                        extrae vidas donde sea más barato.
+                    </p>
+                </div>
+
+                <div class="metal-card fade-in">
+                    <h4><span class="card-icon">✊</span> Resistencia</h4>
+                    <p>
+                        Las mujeres del documental no son víctimas pasivas. Se organizan, denuncian, 
+                        toman las cámaras en sus manos. Nos enseñan que la dignidad no se mendiga: 
+                        se defiende con los dientes si es necesario.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pipe-horizontal"></div>
+
+            <div class="workers-hands fade-in">
+                <div class="hand"></div>
+                <div class="hand"></div>
+                <div class="hand"></div>
+                <div class="hand"></div>
+                <div class="hand"></div>
+                <div class="hand"></div>
+                <div class="hand"></div>
+                <div class="hand"></div>
+                <div class="hand"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cinta de peligro -->
+    <div class="danger-tape">
+        <span class="danger-tape-text">
+            ✖ $5 DIARIOS ✖ 12 HORAS ✖ SIN PROTECCIÓN ✖ SIN DERECHOS ✖ $5 DIARIOS ✖ 12 HORAS ✖ SIN PROTECCIÓN ✖ SIN DERECHOS ✖
+        </span>
+    </div>
+
+    <!-- Estadísticas -->
+    <section>
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">/// DATOS 03</span>
+                <h2 class="stencil-title" data-text="LOS NÚMEROS NO MIENTEN">LOS NÚMEROS NO MIENTEN</h2>
+            </div>
+
+            <div class="stats-industrial fade-in">
+                <div class="stat-box-industrial">
+                    <span class="stat-number-industrial">$5</span>
+                    <span class="stat-label-industrial">Salario Diario</span>
+                </div>
+                <div class="stat-box-industrial">
+                    <span class="stat-number-industrial">12h</span>
+                    <span class="stat-label-industrial">Jornada Laboral</span>
+                </div>
+                <div class="stat-box-industrial">
+                    <span class="stat-number-industrial">70%</span>
+                    <span class="stat-label-industrial">Son Mujeres</span>
+                </div>
+                <div class="stat-box-industrial">
+                    <span class="stat-number-industrial">0</span>
+                    <span class="stat-label-industrial">Protección Real</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Línea de Producción - Timeline -->
+    <section style="background: #151515;">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">/// TRANSFORMACIÓN 04</span>
+                <h2 class="stencil-title" data-text="CAMBIO DE CONCIENCIA">CAMBIO DE CONCIENCIA</h2>
+            </div>
+
+            <div class="production-line">
+                <div class="production-item fade-in">
+                    <h4>Antes: Ignorancia Cómoda</h4>
+                    <p>Compraba sin preguntar. El precio era lo único que importaba. 
+                    "Hecho en México" era solo una etiqueta, no una historia.</p>
+                </div>
+
+                <div class="production-item fade-in">
+                    <h4>Impacto: El Golpe de Realidad</h4>
+                    <p>Ver a Carmen caminar sobre tierra envenenada mientras explica que las empresas 
+                    se fueron sin limpiar. Ver la rabia contenida de quien ha sido usada y descartada.</p>
+                </div>
+
+                <div class="production-item fade-in">
+                    <h4>Ahora: Complicidad Consciente</h4>
+                    <p>Cada compra es una decisión política. Cada producto tiene sangre, sudor y 
+                    químicos tóxicos en su historia. Ya no puedo fingir que no lo sé.</p>
+                </div>
+
+                <div class="production-item fade-in">
+                    <h4>Acción: No Basta Saber</h4>
+                    <p>Informarse, cuestionar, apoyar luchas laborales, exigir transparencia. 
+                    La solidaridad cruza fronteras igual que las cadenas de producción.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Denuncia -->
+    <section class="denounce-section">
+        <h2 class="denounce-title">LA DIGNIDAD NO SE NEGOCIA</h2>
+        <p class="denounce-text">
+            Maquilápolis no es solo un documental: es un espejo. Nos muestra que detrás de cada 
+            producto "barato" hay vidas que pagan el precio real. La pregunta no es si podemos 
+            cambiar el sistema mañana. La pregunta es: ¿vamos a seguir mirando hacia otro lado?
+        </p>
+        <a href="https://youtu.be/C3EGupx8u18?si=y_am6YjM1-YgVscD" target="_blank" class="protest-button">
+            VER EL DOCUMENTAL →
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">MAQUILÁPOLIS</div>
+            <p class="footer-text">
+                Catedra Apun 50 Años<br>
+                Thomas Molina Molina<br><br>
+                <em>"Las que más trabajan son las que menos tienen"</em>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer para animaciones
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Añadir más humo dinámicamente
+        function createSmoke() {
+            const visual = document.querySelector('.factory-visual');
+            if (!visual) return;
+            
+            const smoke = document.createElement('div');
+            smoke.className = 'smoke-cloud';
+            smoke.style.left = (15 + Math.random() * 70) + '%';
+            smoke.style.bottom = '60%';
+            smoke.style.animationDuration = (3 + Math.random() * 2) + 's';
+            
+            visual.appendChild(smoke);
+            
+            setTimeout(() => smoke.remove(), 5000);
+        }
+
+        setInterval(createSmoke, 2000);
+
+        // Console message
+        console.log('%c⚠️ MAQUILÁPOLIS', 'font-size: 24px; font-weight: bold; color: #cc0000;');
+        console.log('%cLa explotación no es inevitable. La resistencia tampoco.', 'font-size: 14px; color: #d4a017;');
+    </script>
+</body>
+</html>
